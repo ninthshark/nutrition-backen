@@ -1,7 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const Nutri = require("./models/nutri.model");
+// const Nutri = require("./models/nutri.model");
+const foodRoute = require("./routes/foodRoute");
 
 require("dotenv").config();
 
@@ -24,29 +25,29 @@ dbConnection.once("open", function () {
   console.log("Database connected");
 });
 
-app.get("/ingredients/:food_name", (req, res) => {
-  const searchTerm = req.params.food_name;
-  console.log(searchTerm);
-  Nutri.find(
-    { $text: { $search: searchTerm } },
-    { score: { $meta: "textScore" } }
-  )
-    .sort({ score: { $meta: "textScore" } })
-    .then((result) => {
-      // console.log(json(result));
-      res.json(result);
-    })
-    .catch((err) => console.log(err));
-});
+app.use("/ingredients", foodRoute);
 
-app.get("/ingredients/item/:id", (req, res) => {
-  // const foodId = req.params.foodId;
-  Nutri.findById(req.params.id)
-    .then((result) => {
-      res.json(result);
-    })
-    .catch((err) => console.log(err));
-});
+// (req, res) => {
+//   const searchTerm = req.params.food_name;
+//   Nutri.find(
+//     { $text: { $search: searchTerm } },
+//     { score: { $meta: "textScore" } }
+//   )
+//     .sort({ score: { $meta: "textScore" } })
+//     .then((result) => {
+//       res.json(result);
+//     })
+//     .catch((err) => console.log(err));
+// });
+
+// app.get("/ingredients/item/:id", (req, res) => {
+//   // const foodId = req.params.foodId;
+//   Nutri.findById(req.params.id)
+//     .then((result) => {
+//       res.json(result);
+//     })
+//     .catch((err) => console.log(err));
+// });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
