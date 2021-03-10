@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-// const cors = require("cors");
+const cors = require("cors");
 const User = require("./models/user.model");
 const foodRoute = require("./routes/foodRoute");
 const userRoute = require("./routes/userRoute");
@@ -11,7 +11,7 @@ const app = express();
 
 const uri = process.env.DBURI;
 
-// app.use(cors());
+app.use(cors());
 app.use(express.json());
 
 mongoose.connect(uri, {
