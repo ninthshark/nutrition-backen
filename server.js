@@ -1,8 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-// const Nutri = require("./models/nutri.model");
+const User = require("./models/user.model");
 const foodRoute = require("./routes/foodRoute");
+const userRoute = require("./routes/userRoute");
 
 require("dotenv").config();
 
@@ -21,33 +22,11 @@ mongoose.connect(uri, {
 
 const dbConnection = mongoose.connection;
 dbConnection.on("error", console.error.bind(console, "connection error:"));
-dbConnection.once("open", function () {
-  console.log("Database connected");
-});
+dbConnection.once("open", () => console.log("Database connected"));
 
-app.use("/ingredients", foodRoute);
+app.use("/api/json/v0.1/search", foodRoute);
 
-// (req, res) => {
-//   const searchTerm = req.params.food_name;
-//   Nutri.find(
-//     { $text: { $search: searchTerm } },
-//     { score: { $meta: "textScore" } }
-//   )
-//     .sort({ score: { $meta: "textScore" } })
-//     .then((result) => {
-//       res.json(result);
-//     })
-//     .catch((err) => console.log(err));
-// });
-
-// app.get("/ingredients/item/:id", (req, res) => {
-//   // const foodId = req.params.foodId;
-//   Nutri.findById(req.params.id)
-//     .then((result) => {
-//       res.json(result);
-//     })
-//     .catch((err) => console.log(err));
-// });
+app.use("/user/", userRoute);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));

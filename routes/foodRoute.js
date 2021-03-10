@@ -9,16 +9,16 @@ foodRoute.get("/:item", async (req, res) => {
       { score: { $meta: "textScore" } }
     ).sort({ score: { $meta: "textScore" } });
 
-    res.json(result);
+    res.json(result).end();
   } catch (err) {
     res.status(400).send(err);
   }
 });
 
-foodRoute.get("/item/:id", async (req, res) => {
+foodRoute.get("/id/:id", async (req, res) => {
   try {
     const result = await Nutri.findById({ _id: req.params.id });
-    res.json(result);
+    res.json(result).end();
   } catch (err) {
     res.status(400).send(err);
   }
