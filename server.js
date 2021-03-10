@@ -24,6 +24,9 @@ const dbConnection = mongoose.connection;
 dbConnection.on("error", console.error.bind(console, "connection error:"));
 dbConnection.once("open", () => console.log("Database connected"));
 
+app.get("/", (req, res) => {
+  res.send("Hello");
+});
 app.use("/api/json/v0.1/search", foodRoute);
 
 app.use("/user/", userRoute);
