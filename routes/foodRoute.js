@@ -1,8 +1,8 @@
 const foodRoute = require("express").Router();
 const Nutri = require("../models/nutri.model");
 
-foodRoute.get("/:item", async (req, res) => {
-  const searchTerm = req.params.item;
+foodRoute.get("/search?", async (req, res) => {
+  const searchTerm = req.query.name;
   try {
     const result = await Nutri.find(
       { $text: { $search: searchTerm } },
@@ -15,9 +15,10 @@ foodRoute.get("/:item", async (req, res) => {
   }
 });
 
-foodRoute.get("/id/:id", async (req, res) => {
+foodRoute.get("/search?", async (req, res) => {
+  const searchId = req.query.id;
   try {
-    const result = await Nutri.findById({ _id: req.params.id });
+    const result = await Nutri.findById({ _id: searchId });
     res.json(result).end();
   } catch (err) {
     res.status(400).send(err);

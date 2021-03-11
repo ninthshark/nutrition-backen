@@ -28,7 +28,7 @@ app.get("/", (req, res) => {
   res.send("Hello");
 });
 
-app.use("/api/json/v0.1/search", foodRoute);
+app.use("/api/json/v0.1", foodRoute);
 
 app.use("/user/", userRoute);
 
